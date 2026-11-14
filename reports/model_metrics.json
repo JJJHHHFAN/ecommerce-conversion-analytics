@@ -1,0 +1,68 @@
+{
+  "target": "Active visitor buys within [cutoff, cutoff + 7 days)",
+  "features": [
+    "view_count",
+    "cart_count",
+    "transaction_count",
+    "unique_items",
+    "active_days",
+    "recency_days"
+  ],
+  "history": "[cutoff - 14 days, cutoff)",
+  "cutoffs_utc": {
+    "train": [
+      "2015-06-01",
+      "2015-06-15",
+      "2015-07-01",
+      "2015-07-15"
+    ],
+    "validation": [
+      "2015-08-01"
+    ],
+    "test": [
+      "2015-08-15"
+    ]
+  },
+  "split_sizes": {
+    "train": 629289,
+    "validation": 176759,
+    "test": 146204
+  },
+  "validation": {
+    "logistic_regression": {
+      "rows": 176759,
+      "buyers": 89,
+      "base_rate": 0.0005035104294547944,
+      "pr_auc": 0.04331364326283479,
+      "roc_auc": 0.8373977573880841,
+      "recall_at_0_5": 0.6067415730337079,
+      "precision_at_0_5": 0.004234961963767547,
+      "top_decile_precision": 0.003281285358678434,
+      "top_decile_lift": 6.5168170642094525
+    },
+    "random_forest": {
+      "rows": 176759,
+      "buyers": 89,
+      "base_rate": 0.0005035104294547944,
+      "pr_auc": 0.11189073364371126,
+      "roc_auc": 0.818678606657623,
+      "recall_at_0_5": 0.48314606741573035,
+      "precision_at_0_5": 0.004093678598629094,
+      "top_decile_precision": 0.002885268160217244,
+      "top_decile_lift": 5.730304659908312
+    }
+  },
+  "chosen_by_validation_pr_auc": "random_forest",
+  "test": {
+    "rows": 146204,
+    "buyers": 75,
+    "base_rate": 0.0005129818609613964,
+    "pr_auc": 0.13278072578423078,
+    "roc_auc": 0.815268062237247,
+    "recall_at_0_5": 0.52,
+    "precision_at_0_5": 0.00430939226519337,
+    "top_decile_precision": 0.0032145544080432256,
+    "top_decile_lift": 6.266409502314024
+  },
+  "caveat": "Repeated visitors can appear at separate time cutoffs; all features and labels respect time. Scores are observational, not causal uplift or ad attribution."
+}

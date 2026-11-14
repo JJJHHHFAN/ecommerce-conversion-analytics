@@ -1,0 +1,23 @@
+{
+  "source": "RetailRocket/Kaggle; retrieved via public Google Drive mirror (see README); SHA-256 matches the Hugging Face mirror",
+  "raw_sha256": "3745aa83238b1e6d44d8fda209807899f420084398f94ddf745f3cbcfecbf9e7",
+  "raw_rows": 2756101,
+  "clean_rows": 2755641,
+  "visitors": 1407580,
+  "items": 235061,
+  "first_utc": "2015-05-03 03:00:04.384000+00:00",
+  "last_utc": "2015-09-18 02:59:47.788000+00:00",
+  "clean_event_counts": {
+    "view": 2664218,
+    "transaction": 22457,
+    "addtocart": 68966
+  },
+  "removed_rows": 460,
+  "ordered_funnel": {
+    "view": 1404179,
+    "view_to_cart": 32934,
+    "view_cart_to_purchase": 9952,
+    "view_to_purchase_any": 11137
+  },
+  "funnel_definition": "Unique visitor, strictly time-ordered view < addtocart < transaction; any item. Direct view-to-purchase shown separately."
+}
