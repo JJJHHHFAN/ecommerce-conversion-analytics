@@ -98,12 +98,18 @@ def main():
     add_body(doc, "在数据质量方面，本研究分别报告原始与清洗后记录数、独立访客数、商品数和日期边界，并以每日事件量检查时间分布。清洗没有根据某个预期结果强行删除高频访客，也没有把购买者特征与非购买者特征在全观察期聚合，因为这样的处理会把预测时点后的活动混入历史信息。原始文件、清洗脚本与输出报告共同构成可审查的证据链。")
     doc.add_heading("5 数据分析与模型结果", 1)
     doc.add_heading("5.1 事件分布和访客路径", 2)
+    add_body(doc, "按 UTC 日期汇总的三类事件量见图 1。浏览事件在整个观察期内始终占多数，加购与交易事件量明显较少。三条曲线均有日际起伏，但仅凭此图不能判断波动由星期、促销或流量渠道造成。观察期最后一个 UTC 日期只覆盖至约 02:59，末端的明显下降主要受不完整日期影响，不应当解读为业务突然恶化。纵轴采用对数刻度，便于在同一图上比较量级差异；图中曲线是事件次数，不是独立访客转化率。")
+    daily_fig = ROOT / "figures/daily_events.png"
+    if daily_fig.exists():
+        doc.add_picture(str(daily_fig), width=Cm(14))
+        caption = doc.add_paragraph("图 1　按 UTC 日期统计的浏览、加购与交易事件量（对数纵轴）")
+        caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
     add_body(doc, f"在访客级有序漏斗中，至少发生一次浏览的访客为 {f['view']:,} 人；浏览后发生加购的访客为 {f['view_to_cart']:,} 人，占浏览访客的 {view_cart:.2%}。在此前提下继续完成购买的访客为 {f['view_cart_to_purchase']:,} 人，占浏览访客的 {full_path:.2%}，占浏览后加购访客的 {cart_purchase:.2%}。另有 {f['view_to_purchase_any']:,} 名访客在浏览后发生购买，这一数值不要求加购阶段。不同指标回答的问题不同，不能把事件次数与独立访客数交叉相除。")
     add_body(doc, "漏斗显示大量浏览访客未进入可观察的加购阶段，但不能直接归因为商品详情页问题：访客可能只是查看信息，也可能在数据观察期外完成购买，或者从不同设备访问而被记为不同匿名标识。加购到购买的路径同样可能受库存、配送、价格感知和结算流程影响，而数据中缺少足以区分这些原因的字段。因此，本研究将路径差异当作需要进一步调研和实验的线索。")
     fig = ROOT / "figures/ordered_funnel.png"
     if fig.exists():
         doc.add_picture(str(fig), width=Cm(14))
-        caption = doc.add_paragraph("图 1　按事件顺序统计的访客转化路径")
+        caption = doc.add_paragraph("图 2　按事件顺序统计的访客转化路径")
         caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_heading("5.2 购买意愿预测", 2)
     add_body(doc, f"训练集共 {model['split_sizes']['train']:,} 条时点样本，验证集 {model['split_sizes']['validation']:,} 条，测试集 {model['split_sizes']['test']:,} 条。验证集逻辑回归的 PR-AUC 为 {val['logistic_regression']['pr_auc']:.4f}，随机森林为 {val['random_forest']['pr_auc']:.4f}。按事先规定的验证集指标，选定 {winner}。独立测试集包含 {test['buyers']:,} 个正例，购买基准率 {test['base_rate']:.2%}；选定模型的 PR-AUC 为 {test['pr_auc']:.4f}，ROC-AUC 为 {test['roc_auc']:.4f}。这些数字只来自已运行的程序输出。")
@@ -124,7 +130,11 @@ def main():
         "[5] Kohavi R, Henne R M, Sommerfield D. Practical Guide to Controlled Experiments on the Web. KDD, 2007. https://ai.stanford.edu/~ronnyk/2007GuideControlledExperiments.pdf",
     ]
     for ref in refs:
-        doc.add_paragraph(ref)
+        p = doc.add_paragraph(ref)
+        p.paragraph_format.line_spacing = 1.0
+        p.paragraph_format.space_after = Pt(3)
+        for run in p.runs:
+            run.font.size = Pt(9)
     footer = section.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
     footer.add_run(f"{args.student_name} · {args.course}")

@@ -41,7 +41,7 @@ python -m src.build_paper --student-id YOUR_ID --student-name YOUR_NAME
 streamlit run app/dashboard.py
 ```
 
-输出保存在 `data/processed/`、`reports/`、`figures/`。原始数据与模型文件体积较大，公开 Git 仓库默认忽略 `data/raw/` 和 `data/processed/`；课程提交时请把这两类数据文件随 Word 和程序一同打包。
+输出保存在 `data/processed/`、`reports/`、`figures/`。原始数据与处理后数据体积较大，公开 Git 仓库默认忽略 `data/raw/` 和 `data/processed/`；课程提交包包含这两类数据文件、Word 论文和完整程序。
 
 ## 文件结构
 
